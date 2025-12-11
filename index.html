@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NJIT ASL Club</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <header>
+    <nav class="navbar">
+      <h1 class="logo">NJIT ASL Club</h1>
+      <ul class="nav-links">
+        <li><a href="#" onclick="showPage('home')">Home</a></li>
+        <li><a href="#" onclick="showPage('events')">Events</a></li>
+        <li><a href="#" onclick="showPage('contact')">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Home -->
+  <section id="home" class="page active">
+    <div class="hero">
+      <h2>Welcome to the NJIT ASL Club</h2>
+      <p>We promote American Sign Language learning and Deaf culture awareness through weekly workshops and events.</p>
+    </div>
+    <div class="grid">
+      <img src="https://i.imgur.com/eFod9vB.jpg" alt="ASL Club Workshop 1">
+      <img src="https://i.imgur.com/u1GMMXI.jpg" alt="ASL Club Workshop 2">
+      <img src="https://i.imgur.com/eD21CNV.jpg" alt="ASL Club Workshop 3">
+    </div>
+  </section>
+
+  <!-- Events -->
+  <section id="events" class="page">
+    <h2>Upcoming Workshop</h2>
+    <div class="event-card">
+      <p id="nextWorkshop">Loading next Wednesday...</p>
+      <p><strong>Time:</strong> 4:00 – 5:00 PM</p>
+      <p><strong>Location:</strong> Central King Building, NJIT, Newark, NJ</p>
+      <div class="countdown">
+        <span id="countdown">Calculating...</span>
+      </div>
+    </div>
+
+    <div class="resources">
+      <h3>Learning Resources</h3>
+      <ul>
+        <li><a href="https://www.nad.org/resources/american-sign-language/" target="_blank">National Association of the Deaf</a></li>
+        <li><a href="https://www.startasl.com/" target="_blank">Start ASL – Free Lessons</a></li>
+        <li><a href="https://asl.ms/" target="_blank">ASL Fingerspelling Practice</a></li>
+        <li><a href="https://lifeprint.com/" target="_blank">ASL University (Lifeprint)</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="page">
+    <h2>Contact Us</h2>
+    <p>Interested in joining or learning more? Reach out:</p>
+    <ul>
+      <li><strong>Email:</strong> aslclub@njit.edu</li>
+      <li><strong>Instagram:</strong> @njitaslclub</li>
+      <li><strong>Location:</strong> Central King Building, NJIT, Newark, NJ</li>
+    </ul>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 NJIT ASL Club</p>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    function showPage(pageId) {
+      document.querySelectorAll('.page').forEach(sec => sec.classList.remove('active'));
+      document.getElementById(pageId).classList.add('active');
+    }
+
+    function getNextWorkshopDate() {
+      const today = new Date();
+      const day = today.getDay();
+      let diff = (3 - day + 7) % 7;
+      if (diff === 0) diff = 7;
+      const nextWed = new Date(today);
+      nextWed.setDate(today.getDate() + diff);
+      nextWed.setHours(16, 0, 0, 0);
+      return nextWed;
+    }
+
+    const nextWorkshopDate = getNextWorkshopDate();
+    document.getElementById("nextWorkshop").textContent = nextWorkshopDate.toDateString();
+
+    function updateCountdown() {
+      const now = new Date();
+      const diff = nextWorkshopDate - now;
+      if (diff <= 0) {
+        document.getElementById("countdown").textContent = "Workshop is happening now!";
+        return;
+      }
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+      document.getElementById("countdown").textContent =
+        `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+  </script>
+</body>
+</html>
